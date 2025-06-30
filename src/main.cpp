@@ -8,10 +8,11 @@
  ******************************************************************************
  */
 
-#include "lv_init.h"
+#include "lvgl.h"
 
 #include "app_hal.h"
-#include "widgets.hpp"
+#include "load_c_img.hpp"
+#include "load_arc.hpp"
 
 auto main() -> int {
     // This must come first
@@ -23,8 +24,9 @@ auto main() -> int {
     // Place widgets here
     // lv_demo_widgets();
 
-    lv_start();
-    lv_start2();
+    lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(0x000000), LV_PART_MAIN);
+    load_images();
+    load_arc_meter();
 
     // Must be last
     hal_loop();
