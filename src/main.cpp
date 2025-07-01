@@ -12,7 +12,7 @@
 
 #include "app_hal.h"
 #include "load_c_img.hpp"
-#include "load_arc.hpp"
+#include "widgets.hpp"
 
 auto main() -> int {
     // This must come first

@@ -1,59 +1,51 @@
 #pragma once
-#include <iostream>
-#include "core/lv_obj.h"
-#include "display/lv_display.h"
-#include "misc/lv_area.h"
-#include "widgets/button/lv_button.h"
-#include "widgets/label/lv_label.h"
+#ifndef LOAD_ARC_HPP
+#define LOAD_ARC_HPP
+#include "lvgl.h"
 #include "hex_codes.hpp"
-#ifndef WIDGETS_HPP
-#define WIDGETS_HPP
 
-// auto lv_dashboard() -> void {
-//     lv_obj_t dash = lv_obj_create(parent)
-//         lv_obj_t = lv_obj_create()
-// }
+static constexpr int SIZE_W = 290;
+static constexpr int SIZE_H = 447;
+static constexpr int ROTATION = 135;
+static constexpr int TOTAL_ANGLE = 270;
 
-static constexpr uint32_t WHITE = 0xffffff;
+static void arc_event_cb(lv_event_t *event);
+static void slider_event_cb(lv_event_t *event);
 
-static auto btn_event(lv_event_t *event) -> void {
-    lv_event_code_t code = lv_event_get_code(event);
-    lv_obj_t *btn = lv_event_get_target_obj(event);
-    if (code == LV_EVENT_CLICKED) {
-        static uint8_t count = 0;
-        count++;
+inline auto load_arc_meter() -> void {
+    lv_obj_t *arc_src = lv_arc_create(lv_screen_active());
+    lv_obj_t *arc_label = lv_label_create(lv_screen_active());
 
-        lv_obj_t *label = lv_obj_get_child(btn, 0);
-        lv_label_set_text_fmt(label, "Button: %d", count);
-    }
+    lv_obj_set_size(arc_src, SIZE_W, SIZE_H);
+    lv_arc_set_rotation(arc_src, ROTATION);
+    lv_obj_set_style_arc_color(arc_src, lv_color_hex(LAZER_BLUE), LV_PART_INDICATOR);
+    lv_arc_set_bg_angles(arc_src, 0, TOTAL_ANGLE);
+    lv_arc_set_value(arc_src, 0);
+    lv_obj_add_event_cb(arc_src, arc_event_cb, LV_EVENT_VALUE_CHANGED, arc_label);
+
+    lv_obj_send_event(arc_src, LV_EVENT_VALUE_CHANGED, nullptr);
+
+    lv_obj_t *slider_src = lv_slider_create(lv_screen_active());
+    lv_obj_t *slider_label = lv_label_create(lv_screen_active());
+
+    lv_obj_align(slider_src, LV_ALIGN_TOP_MID, 0, 0);
+
+    lv_obj_add_event_cb(slider_src, slider_event_cb, LV_EVENT_VALUE_CHANGED, arc_src);
+
+    lv_obj_send_event(slider_src, LV_EVENT_VALUE_CHANGED, nullptr);
 }
 
-inline auto lv_start() -> void {
-    lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(LAZER_BLUE), LV_PART_MAIN);
+static void arc_event_cb(lv_event_t *event) {
+    auto *arc_src = (lv_obj_t *)lv_event_get_target(event);
+    auto *label = (lv_obj_t *)lv_event_get_user_data(event);
 
-    lv_obj_t *label = lv_label_create(lv_screen_active());
-    lv_label_set_text(label, "Blue!");
-    lv_obj_set_style_text_color(label, lv_color_hex(WHITE), LV_PART_MAIN);
-    lv_obj_align(label, LV_ALIGN_CENTER, 0, 0);
+    lv_label_set_text_fmt(label, "%d", lv_arc_get_value(arc_src));
+    lv_arc_rotate_obj_to_angle(arc_src, label, 25);
 }
-
-inline auto lv_start2() -> void {
-    lv_obj_t *btn = lv_button_create(lv_screen_active());
-    lv_obj_set_pos(btn, 10, 10);
-    lv_obj_set_size(btn, 100, 50);
-    lv_obj_add_event_cb(btn, btn_event, LV_EVENT_ALL, nullptr);
-
-    lv_obj_t *label = lv_label_create(btn);
-    lv_label_set_text(label, "Btn");
-    lv_obj_center(label);
-    int32_t width = lv_obj_get_width(lv_screen_active());
-    int32_t height = lv_obj_get_height(lv_screen_active());
-    lv_obj_t *size_label = lv_label_create(lv_screen_active());
-    char buf[64];
-    snprintf(buf, sizeof(buf), "width: %d height: %d", width, height);
-    lv_label_set_text(size_label, buf);
-    lv_obj_set_style_text_color(size_label, lv_color_hex(WHITE), LV_PART_MAIN);
-    lv_obj_align(size_label, LV_ALIGN_LEFT_MID, 0, 0);
+static void slider_event_cb(lv_event_t *event) {
+    auto *src = (lv_obj_t *)lv_event_get_target(event);
+    auto *src_data = (lv_obj_t *)lv_event_get_user_data(event);
+    auto slider_value = lv_slider_get_value(src_data);
 }
 
 #endif
