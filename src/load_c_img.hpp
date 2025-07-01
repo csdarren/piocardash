@@ -5,28 +5,17 @@
 #include "lvgl.h"
 #include "hex_codes.hpp"
 
-LV_IMG_DECLARE(minifg);
-LV_IMG_DECLARE(minibg);
 LV_IMG_DECLARE(warning);
+LV_IMG_DECLARE(PerfectBaseMini);
 
 inline auto load_images() -> void {
-    lv_obj_t *warning_icon = lv_img_create(lv_screen_active());
-    lv_img_set_src(warning_icon, &warning);
-    lv_obj_set_pos(warning_icon, 400, 200);
-    lv_img_set_zoom(warning_icon, 32);
+    lv_obj_t *minidash_src = lv_img_create(lv_screen_active());
 
-    // Load both background and foreground for cluster
-    lv_obj_t *minifg_src = lv_img_create(lv_screen_active());
-    lv_obj_t *minibg_src = lv_img_create(lv_screen_active());
+    lv_img_set_src(minidash_src, &PerfectBaseMini);
 
-    lv_img_set_src(minifg_src, &minifg);
-    lv_img_set_src(minibg_src, &minifg);
+    lv_obj_center(minidash_src);
 
-    lv_obj_center(minifg_src);
-    lv_obj_center(minibg_src);
-
-    lv_img_set_zoom(minifg_src, LV_ZOOM_NONE);
-    lv_img_set_zoom(minibg_src, LV_ZOOM_NONE);
+    lv_img_set_zoom(minidash_src, LV_ZOOM_NONE);
 }
 
 #endif
