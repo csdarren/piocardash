@@ -31,7 +31,7 @@ void hal_setup(void) {
     /* Add a display
      * Use the 'monitor' driver which creates window on PC's monitor to simulate a display*/
 
-    lvDisplay = lv_sdl_window_create(720, 720);
+    lvDisplay = lv_sdl_window_create(SDL_HOR_RES, SDL_VER_RES);
     lvMouse = lv_sdl_mouse_create();
     lvMouseWheel = lv_sdl_mousewheel_create();
     lvKeyboard = lv_sdl_keyboard_create();

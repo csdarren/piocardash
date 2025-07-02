@@ -6,12 +6,12 @@
 #include "hex_codes.hpp"
 
 LV_IMG_DECLARE(warning);
-LV_IMG_DECLARE(PerfectBaseMini);
+LV_IMG_DECLARE(MiniDash_v1);
 
 inline auto load_images() -> void {
     lv_obj_t *minidash_src = lv_img_create(lv_screen_active());
 
-    lv_img_set_src(minidash_src, &PerfectBaseMini);
+    lv_img_set_src(minidash_src, &MiniDash_v1);
 
     lv_obj_center(minidash_src);
 
