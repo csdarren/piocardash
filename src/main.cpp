@@ -8,12 +8,11 @@
  ******************************************************************************
  */
 
+#include "images.hpp"
 #include "lvgl.h"
 
 #include "app_hal.h"
-#include "load_c_img.hpp"
 #include "widgets.hpp"
-#include "hex_codes.hpp"
 
 auto main() -> int {
     // This must come first
@@ -26,11 +25,12 @@ auto main() -> int {
     // lv_demo_widgets();
 
     lv_obj_set_style_bg_color(lv_screen_active(), lv_color_hex(BG_COLOR), LV_PART_MAIN);
-    RPM_arc();
-    SPEED_arc();
-    FUEL_arc();
-    TEMP_arc();
-    load_images();
+
+    RpmArc();
+    SpeedArc();
+    TempArc();
+    LoadImages();
+    FuelArc();
 
     // Must be last
     hal_loop();

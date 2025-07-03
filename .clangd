@@ -1,4 +1,3 @@
-If:
-  PathMatch: 'include/.*'
 Diagnostics:
-  Suppress: '*'  # Ignore all clangd diagnostics in include/
+    Suppress:
+    - unused-includes
