@@ -12,7 +12,7 @@
 #include "lvgl.h"
 
 #include "app_hal.h"
-#include "widgets.hpp"
+#include "arcWidget.hpp"
 
 auto main() -> int {
     // This must come first
@@ -29,8 +29,8 @@ auto main() -> int {
     RpmArc();
     SpeedArc();
     TempArc();
-    LoadImages();
     FuelArc();
+    LoadImages();
 
     // Must be last
     hal_loop();
